@@ -11,7 +11,7 @@ make hadd
 ```
 
 # haddCondor.x input arguments
- - 1= output diretory name
+ - 1= output directory name
  - 2= path (where .x and source code is located)
  - 3= inputlist.list
  - 4= nCombine (number of input files to hadd per job)
@@ -25,7 +25,7 @@ make hadd
  - go to the generated /dag/ directory for the dag script
  - submit dag with:
 ```
-condor_submit_dag mydag.dg
+condor_submit_dag mydag.dag
 ```
  - the dag will then run the first layer of jobs, produce output rootfiles, then run jobs that hadd the previous layers output as input. This continues until there is only 1 final root file
 
@@ -40,9 +40,10 @@ Wrong: pathto/mypath/		Right: pathto/mypath
 nCombine must be >= 2
 
 Currently intermediate hadd rootfiles are not deleted, this can take up alot of space. just delete them manually when the job finishes. Ill probably update this later. exploiting the naming convention, you can delete these like
-```rm f_*.root
+```
+rm f_*.root
 ```
 
-It might be a good idea to add request for more memory in the submission scripts (for large hadds)
+It might be a good idea to add a request for more memory in the submission scripts (for large hadds)
 
 
