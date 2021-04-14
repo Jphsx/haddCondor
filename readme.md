@@ -32,6 +32,15 @@ condor_submit_dag mydag.dag
 
 # Notes/caveats
 
+
+The quick way i create a file list is:
+ Suppose you have a directory "myRootFiles" which contains all the root files, to create the list do
+```
+ls -d $PWD/myRootFiles/*.root > mylist.list
+```
+this will do a ls with full path and pipe the output into a text file called mylist.list
+the output of this call will be correctly formatted for input into the tool
+
 make sure the list is formatted correct : (no line break at the end of the file)
 
 when inputting path,  make sure there is **not** a / at the end of the path

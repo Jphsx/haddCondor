@@ -1,3 +1,9 @@
 haddCondor.x
 haddjob.x 
 test5
+BFI_T2tt.list
+BFI_TChiWZ.list
+T2tt
+TChiWZ
+runT2tt.sh
+runTChiWZ.sh
