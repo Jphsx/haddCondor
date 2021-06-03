@@ -130,7 +130,7 @@ int main(int argc, char *argv[]){
 	system(("mkdir "+OutputDirName+"/root").c_str());
 //	system(("mkdir "+OutputDirName+"/root_intermediate").c_str());
 	system(("mkdir "+OutputDirName+"/dag").c_str());
-
+	system(("mkdir "+OutputDirName+"/manual_submission").c_str());
 	//read in text list of root files
 	std::vector<std::string> fileList;
 	std::string line;
@@ -194,16 +194,29 @@ int main(int argc, char *argv[]){
 	}
 	
 	for(int i=0; i<joblayers.size()-1;i++){
+		std::ofstream manualsub_file;
+		manualsub_file.open(path+"/"+OutputDirName+"/manual_submission/submission_layer"+std::to_string(i+1)+".sh");
         	dagfile<< "PARENT ";
 		for(int j=1; j<=joblayers.at(i)->_njobs; j++){
 			dagfile<< "l"+std::to_string(joblayers.at(i)->_layer)+"j"+std::to_string(j) << " ";
+			manualsub_file<< "condor_submit "+path+"/"+OutputDirName+"/sub/";
+			manualsub_file<<"l"+std::to_string(joblayers.at(i)->_layer)+"j"+std::to_string(j)+".submit\n"; 
 		}
+		manualsub_file.close();
+		
 		dagfile<<"CHILD ";
 		for(int j=1; j<=joblayers.at(i+1)->_njobs; j++){
 			dagfile<< "l"+std::to_string(joblayers.at(i+1)->_layer)+"j"+std::to_string(j) << " ";
 		} 
 		dagfile<<"\n";       	
 	}
+	//since we loop to joblayers_size()-1 we need to make a manual submission extra call
+	//the last layer will always have 1 job
+	std::ofstream manualsub_file;
+	manualsub_file.open(path+"/"+OutputDirName+"/manual_submission/submission_layer"+std::to_string(joblayers.size())+".sh");
+	manualsub_file<< "condor_submit "+path+"/"+OutputDirName+"/sub/";
+        manualsub_file<<"l"+std::to_string(joblayers.size())+"j1.submit\n";
+	manualsub_file.close();
 	dagfile.close();
 
 }

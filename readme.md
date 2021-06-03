@@ -56,3 +56,14 @@ rm f_*.root
 It might be a good idea to add a request for more memory in the submission scripts (for large hadds)
 
 
+# Manual Submissions for CMS Connect or environments without DAG
+
+A manual_submission directory has now been added to the initial directory structure output.
+This directory contains .sh files with a ```condor_submit``` for each job in a particular layer
+There is 1 .sh file per layer
+The intention of these files is to submit manually layer 1 ... wait until these jobs finish -> then submit layer2 and so on..
+
+To submit a layer of jobs from the .sh file do:
+```
+source submission_layerX.sh
+```
